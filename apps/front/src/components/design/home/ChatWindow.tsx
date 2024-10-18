@@ -16,8 +16,8 @@ export const ChatWindow = () => {
   if (!room) return null;
 
   return (
-    <div className="flex h-full flex-col bg-gray-900">
-      <header className="sticky top-0 z-10 border-gray-800 border-b bg-gray-900 p-4">
+    <div className="flex h-full flex-col">
+      <header className="sticky top-0 z-10 border-gray-800 border-b p-4">
         <h1 className="font-semibold text-gray-100 text-xl">
           Chat: {room.name}
         </h1>

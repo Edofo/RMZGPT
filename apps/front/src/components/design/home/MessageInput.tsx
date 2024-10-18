@@ -14,10 +14,7 @@ export const MessageInput = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="border-gray-800 border-t bg-gray-900 p-4"
-    >
+    <form onSubmit={handleSubmit} className="border-gray-800 border-t p-4">
       <div className="flex items-center space-x-2">
         <input
           id="message"
