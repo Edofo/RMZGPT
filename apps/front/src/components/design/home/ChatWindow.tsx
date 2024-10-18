@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useChat } from "@/contexts/ChatContext";
 
 export const ChatWindow = () => {
-  const { room, roomMessages } = useChat();
+  const { room, roomMessages, loadingMessage } = useChat();
 
   useEffect(() => {
     if (!roomMessages || !room) return;
@@ -24,7 +24,7 @@ export const ChatWindow = () => {
         {roomMessages.map((message) => (
           <div
             key={message.id}
-            className={`mx-2 max-w-xs rounded-lg p-3 ${
+            className={`mx-2 max-w-[45%] rounded-lg p-3 ${
               message.sender === "me"
                 ? "ml-auto bg-blue-500 text-white"
                 : "bg-white text-gray-800"
@@ -36,6 +36,11 @@ export const ChatWindow = () => {
             </span>
           </div>
         ))}
+        {loadingMessage && (
+          <div className="mx-2 max-w-[45%] rounded-lg bg-white p-3 text-gray-800">
+            <p>...</p>
+          </div>
+        )}
       </div>
     </div>
   );
