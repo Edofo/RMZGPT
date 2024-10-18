@@ -1,14 +1,16 @@
 name: Deploy 🚀
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
 
 jobs:
   deploy-api:
-    name: Deploy api
+    name: Deploy API
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main' }}
     concurrency:
       group: deploy-group
       cancel-in-progress: true
@@ -20,8 +22,9 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   deploy-front:
-    name: Deploy web
+    name: Deploy Web
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main' }}
     concurrency:
       group: deploy-group
       cancel-in-progress: true
