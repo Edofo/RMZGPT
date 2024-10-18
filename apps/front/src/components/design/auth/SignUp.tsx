@@ -4,12 +4,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
 import { isValidEmail } from "@/lib/isValidData";
 
 export const SignUp = () => {
-  const { register } = useAuth();
   const { addToast } = useToast();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +26,7 @@ export const SignUp = () => {
     if (password !== confirmPassword)
       return addToast("Passwords do not match", "error");
 
-    register({ email, pseudo: e.currentTarget.pseudo.value, password });
+    // register({ email, pseudo: e.currentTarget.pseudo.value, password });
   };
 
   return (
