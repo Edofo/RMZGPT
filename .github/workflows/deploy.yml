@@ -11,32 +11,41 @@ jobs:
   deploy-api:
     name: Deploy API
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
     concurrency:
       group: deploy-group
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v4
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --dockerfile ./apps/api/Dockerfile --config ./apps/api/fly.toml
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master # Reverted to original
+
+      - name: Deploy API
+        run: flyctl deploy --dockerfile ./apps/api/Dockerfile --config ./apps/api/fly.toml
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   deploy-front:
     name: Deploy Web
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
     concurrency:
       group: deploy-group
       cancel-in-progress: true
     needs: deploy-api
     steps:
-      - uses: actions/checkout@v4
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: echo VITE_API_URL=$API_URL > ./apps/front/.env
-        env:
-          API_URL: ${{ secrets.VITE_API_URL }}
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - run: flyctl deploy --dockerfile ./apps/front/Dockerfile --config ./apps/front/fly.toml
+      - name: Set up Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master # Reverted to original
+
+      - name: Create .env file
+        run: echo VITE_API_URL=${{ secrets.VITE_API_URL }} > ./apps/front/.env
+
+      - name: Deploy Frontend
+        run: flyctl deploy --dockerfile ./apps/front/Dockerfile --config ./apps/front/fly.toml
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_FRONT_TOKEN }}
