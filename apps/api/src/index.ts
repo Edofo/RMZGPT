@@ -34,7 +34,7 @@ app.post("/send-message", async (req, res) => {
       return;
     }
 
-    const response = await sendMessage(message);
+    const response = await sendMessage({ message });
     const content = response.content[0];
     res.status(201).send({
       id: response.id,
