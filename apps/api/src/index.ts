@@ -33,6 +33,10 @@ async function initializeAnthropic(message: string) {
   return msg;
 }
 
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 app.post("/send-message", async (req, res) => {
   try {
     const { message } = req.body;
