@@ -7,7 +7,7 @@ import ToastContainer from "./components/ToastContainer";
 
 const App = () => {
   return (
-    <div className="flex h-screen w-screen bg-gradient-to-br from-blue-400 via-pink-500 to-red-500">
+    <div className="flex h-screen w-screen bg-gray-900">
       <Suspense fallback={<LoadingPage />}>
         <HomePage />
       </Suspense>
