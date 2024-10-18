@@ -1,4 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { config } from "dotenv";
+
+config();
 
 const initializeAnthropic = () => {
   return new Anthropic({
