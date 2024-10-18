@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-api:
-    name: Deploy app
+    name: Deploy api
     runs-on: ubuntu-latest
     concurrency: deploy-group
     steps:
