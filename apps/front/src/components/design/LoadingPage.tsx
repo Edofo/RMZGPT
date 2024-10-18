@@ -14,6 +14,8 @@ const loadingMessages = [
   "Fueling the excitement rockets...",
 ];
 
+const uniqueKeys = ["key-1", "key-2", "key-3", "key-4", "key-5"];
+
 const LoadingPage = () => {
   const [messageIndex, setMessageIndex] = useState(0);
 
@@ -37,11 +39,11 @@ const LoadingPage = () => {
         </p>
       </div>
       <div className="mt-16 flex space-x-4">
-        {[...Array(5)].map((x, i) => (
+        {uniqueKeys.map((key, index) => (
           <div
-            key={x}
-            className={"h-4 w-4 animate-bounce rounded-full bg-white"}
-            style={{ animationDelay: `${i * 0.15}s` }}
+            key={key}
+            className="h-4 w-4 animate-bounce rounded-full bg-white"
+            style={{ animationDelay: `${index * 0.15}s` }}
           />
         ))}
       </div>
