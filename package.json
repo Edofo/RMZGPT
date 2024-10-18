@@ -6,13 +6,16 @@
     "dev": "turbo dev",
     "lint": "biome check --no-errors-on-unmatched --files-ignore-unknown=true --write .",
     "preinstall": "npx only-allow pnpm",
-    "prepare": "if [ -d .git ]; then husky; fi"
+    "prepare": "if [ -d .git ]; then husky; fi",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
-    "turbo": "^2.1.3"
+    "turbo": "^2.1.3",
+    "vitest": "^2.0.5"
   },
   "packageManager": "pnpm@9.12.0"
 }

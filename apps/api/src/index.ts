@@ -1,14 +1,17 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { sendMessage } from "./antropic";
+
 import cors from "cors";
 import express, { type Application } from "express";
 import helmet from "helmet";
 require("dotenv").config();
 
-const app: Application = express();
+export const app: Application = express();
+
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cors());
 app.use(helmet());
+
 app.use((_req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -18,20 +21,6 @@ app.use((_req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
-
-async function initializeAnthropic(message: string) {
-  const anthropic = new Anthropic({
-    apiKey: process.env.ANTHROPIC_API_KEY,
-  });
-
-  const msg = await anthropic.messages.create({
-    model: "claude-3-5-sonnet-20240620",
-    max_tokens: 1024,
-    messages: [{ role: "user", content: message }],
-  });
-
-  return msg;
-}
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
@@ -45,7 +34,7 @@ app.post("/send-message", async (req, res) => {
       return;
     }
 
-    const response = await initializeAnthropic(message);
+    const response = await sendMessage(message);
     const content = response.content[0];
     res.status(201).send({
       id: response.id,
