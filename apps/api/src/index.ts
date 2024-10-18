@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
-import express from "express";
+import express, { type Application } from "express";
 
-const app = express();
+const app: Application = express();
 app.use(express.json());
 
 async function initializeAnthropic(message: string) {
@@ -22,7 +22,8 @@ app.post("/send-message", async (req, res) => {
   try {
     const { message } = req.body;
     if (!message) {
-      return res.status(400).send({ error: "Message is required" });
+      res.status(400).send({ error: "Message is required" });
+      return;
     }
 
     const response = await initializeAnthropic(message);
