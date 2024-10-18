@@ -1,11 +1,4 @@
-import {
-  ChevronRight,
-  LogOut,
-  Menu,
-  MessageSquare,
-  Plus,
-  X,
-} from "lucide-react";
+import { ChevronRight, LogOut, Menu, MessageSquare, X } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -18,12 +11,7 @@ import { useChat } from "@/contexts/ChatContext";
 export const Sidebar = () => {
   const { setRoom } = useChat();
 
-  const chats = [
-    { id: "1", name: "Chat 1" },
-    { id: "2", name: "Chat 2" },
-    { id: "3", name: "Chat 3" },
-    { id: "4", name: "Chat 4" },
-  ];
+  const chats = [{ id: "1", name: "Chat 1" }];
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -71,9 +59,6 @@ export const Sidebar = () => {
         </Popover>
         <h2 className="mb-1 flex items-center justify-between font-bold text-2xl text-white">
           Chats
-          <div className="cursor-pointer rounded bg-white bg-opacity-0 p-2 transition-colors hover:bg-opacity-30">
-            <Plus className="r h-5 w-5 text-white" />
-          </div>
         </h2>
         <div>
           <ul className="mt-2 space-y-2">
