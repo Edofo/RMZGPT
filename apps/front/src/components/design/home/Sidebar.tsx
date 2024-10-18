@@ -40,7 +40,7 @@ export const Sidebar = () => {
               />
               <div className="flex w-full items-center justify-between ">
                 <p className="text-center font-bold text-white text-opacity-80">
-                  {"Test deploy"}
+                  {"Test"}
                 </p>
                 <ChevronRight className="h-5 w-5 text-white" />
               </div>
