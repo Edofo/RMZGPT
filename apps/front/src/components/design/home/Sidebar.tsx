@@ -40,7 +40,7 @@ export const Sidebar = () => {
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
       <aside
-        className={`fixed inset-y-0 left-0 z-20 w-72 transform bg-white bg-opacity-10 p-4 backdrop-blur-lg transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"}md:relative md:translate-x-0 `}
+        className={`fixed inset-y-0 left-0 z-20 w-72 transform bg-white bg-opacity-10 p-4 backdrop-blur-lg transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0 `}
       >
         <Popover>
           <PopoverTrigger asChild>
