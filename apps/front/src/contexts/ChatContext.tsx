@@ -1,3 +1,4 @@
+import { SendMessage } from "@/http/requests/chat/sendMessage";
 import type { ChatRoom, Message } from "@/types/chat";
 import type React from "react";
 import {
@@ -43,6 +44,15 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({
         timestamp: new Date().toISOString(),
       };
       setRoomMessages((prevMessages) => [...prevMessages, newMessage]);
+
+      const response = await SendMessage({ message });
+      const newMessageBot: Message = {
+        id: response.id,
+        content: response.content,
+        sender: "them",
+        timestamp: new Date().toISOString(),
+      };
+      setRoomMessages((prevMessages) => [...prevMessages, newMessageBot]);
       setLoadingMessage(false);
     },
     [selectedRoom],

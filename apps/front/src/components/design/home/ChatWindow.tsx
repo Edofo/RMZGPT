@@ -24,14 +24,11 @@ export const ChatWindow = () => {
         {roomMessages.map((message) => (
           <div
             key={message.id}
-            // className={`max-w-xs mx-2 p-3 rounded-lg ${
-            //   message.user.id === user?.id
-            //     ? 'ml-auto bg-blue-500 text-white'
-            //     : 'bg-white text-gray-800'
-            // }`}
-            className={
-              "mx-2 ml-auto max-w-xs rounded-lg bg-blue-500 p-3 text-white"
-            }
+            className={`mx-2 max-w-xs rounded-lg p-3 ${
+              message.sender === "me"
+                ? "ml-auto bg-blue-500 text-white"
+                : "bg-white text-gray-800"
+            }`}
           >
             <p>{message.content}</p>
             <span className="text-xs opacity-75">
