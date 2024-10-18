@@ -1,27 +1,35 @@
-FROM node:22 AS build
+ARG NODE_VERSION=18.18.0
 
+FROM node:${NODE_VERSION}-alpine AS alpine
+RUN apk update
+RUN apk add --no-cache libc6-compat
+
+FROM alpine as base
+RUN npm install pnpm turbo --global
+RUN pnpm config set store-dir ~/.pnpm-store
+
+FROM base AS pruner
+WORKDIR /app
+COPY . .
+RUN npx turbo prune --scope=webchat-front --docker
+
+FROM base AS builder
 WORKDIR /app
 
-# Copy files
-COPY package.json pnpm-lock.yaml ./
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY --from=pruner /app/out/json/ .
 
-# Install pnpm & node modules
-RUN npm install -g pnpm && pnpm install --frozen-lockfile --ignore-scripts
+RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm install --no-frozen-lockfile
 
-COPY . ./
+COPY --from=pruner /app/out/full/ .
 
-ENV NODE_ENV=production
+RUN npx turbo build --filter=webchat-front
 
-# Build app
-RUN npm i -g dotenv-cli && dotenv -e .env -- pnpm build
+FROM nginx:alpine AS runner
 
-FROM nginx:stable-alpine AS run
-
-# Setup Nginx
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/apps/front/dist /usr/share/nginx/html
 
 EXPOSE 80
 
-# Run Nginx
 CMD ["nginx", "-g", "daemon off;"]

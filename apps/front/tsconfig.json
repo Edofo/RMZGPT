@@ -8,7 +8,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "baseUrl": ".",
-    "types": ["@types/react", "@testing-library/jest-dom/vitest"],
+    "types": ["@types/react", "@testing-library/jest-dom/vitest", "jest"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
