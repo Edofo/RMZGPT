@@ -1,12 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
 import express, { type Application } from "express";
+require("dotenv").config();
 
 const app: Application = express();
 app.use(express.json());
 
 async function initializeAnthropic(message: string) {
   const anthropic = new Anthropic({
-    apiKey: "my_api_key",
+    apiKey: process.env.ANTHROPIC_API_KEY,
   });
 
   const msg = await anthropic.messages.create({
