@@ -17,12 +17,13 @@ export const Sidebar = () => {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (chats.length) {
       const { id, name } = chats[0];
       setRoom({ id, name });
     }
-  });
+  }, []);
 
   return (
     <>
