@@ -1,22 +1,17 @@
+import { SendMessageUseCase } from "@/application/usecases/SendMessageUseCase";
+import { AnthropicClient } from "@/infrastructure/anthropic/AnthropicClient";
 import type { Request, Response } from "express";
-import { SendMessageUseCase } from "../../application/usecases/SendMessageUseCase";
-import { MessageService } from "../../domain/services/MessageService";
-import { AnthropicClient } from "../../infrastructure/anthropic/AnthropicClient";
 import { MessageRepository } from "../../interfaces/repositories/MessageRepository";
 
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const messageService = new MessageService();
 const anthropicClient = new AnthropicClient(
   process.env.ANTHROPIC_API_KEY as string,
 );
 const messageRepository = new MessageRepository(anthropicClient);
-const sendMessageUseCase = new SendMessageUseCase(
-  messageService,
-  messageRepository,
-);
+const sendMessageUseCase = new SendMessageUseCase(messageRepository);
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class MessageController {
@@ -38,7 +33,6 @@ export class MessageController {
       if (error instanceof Error) {
         return res.status(500).send({ error: error.message });
       }
-
       return res.status(500).send({ error: "An unknown error occurred" });
     }
   }

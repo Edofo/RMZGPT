@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 
 export class AnthropicClient {
-  private client: Anthropic;
+  private readonly client: Anthropic;
 
   constructor(apiKey: string) {
     this.client = new Anthropic({ apiKey });

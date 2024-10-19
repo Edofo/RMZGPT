@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
 import { isValidEmail } from "@/lib/isValidData";
 
 export const SignUp = () => {
   const { addToast } = useToast();
+  const { register } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,7 +28,7 @@ export const SignUp = () => {
     if (password !== confirmPassword)
       return addToast("Passwords do not match", "error");
 
-    // register({ email, pseudo: e.currentTarget.pseudo.value, password });
+    register({ email, username: e.currentTarget.username.value, password });
   };
 
   return (
@@ -45,14 +47,14 @@ export const SignUp = () => {
         />
       </div>
       <div>
-        <Label htmlFor="pseudo" className="text-white">
-          Pseudo
+        <Label htmlFor="username" className="text-white">
+          Username
         </Label>
         <Input
-          id="pseudo"
-          name="pseudo"
+          id="username"
+          name="username"
           type="text"
-          autoComplete="pseudo"
+          autoComplete="username"
           required
           className="border-transparent bg-white bg-opacity-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
