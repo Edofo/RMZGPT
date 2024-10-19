@@ -1,20 +1,15 @@
+import { SendMessageUseCase } from "@/application/usecases/sendMessage";
+import { Message } from "@/domain/models/Message";
+import type { MessageRepository } from "@/interfaces/repositories/MessageRepository";
 // tests/application/SendMessageUseCase.test.ts
 import { type Mock, describe, expect, it, vi } from "vitest";
-import { SendMessageUseCase } from "../../src/application/usecases/sendMessage";
-import { Message } from "../../src/domain/models/Message";
-import { MessageService } from "../../src/domain/services/MessageService";
-import type { MessageRepository } from "../../src/interfaces/repositories/MessageRepository";
 
 describe("SendMessageUseCase", () => {
-  const messageService = new MessageService();
   const messageRepository = {
     sendMessage: vi.fn(),
   } as unknown as MessageRepository;
 
-  const sendMessageUseCase = new SendMessageUseCase(
-    messageService,
-    messageRepository,
-  );
+  const sendMessageUseCase = new SendMessageUseCase(messageRepository);
 
   it("should send a valid message", async () => {
     const messageContent = "Hello from Vitest";

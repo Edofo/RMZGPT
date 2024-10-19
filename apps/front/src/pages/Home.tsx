@@ -1,8 +1,9 @@
+import { AuthGuard } from "@/components/AuthGuard";
 import { ChatWindow } from "@/components/design/home/ChatWindow";
 import { MessageInput } from "@/components/design/home/MessageInput";
 import { Sidebar } from "@/components/design/home/Sidebar";
 
-const HomePage = () => {
+export const HomePage = () => {
   return (
     <>
       <Sidebar />
@@ -16,4 +17,8 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+const AuthHomePage = () => {
+  return <AuthGuard render={() => <HomePage />} />;
+};
+
+export default AuthHomePage;

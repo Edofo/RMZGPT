@@ -28,7 +28,7 @@ const LoadingPage = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+    <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-gray-900">
       <div className="text-center">
         <div className="mb-8">
           <Loader2 className="mx-auto h-16 w-16 animate-spin text-white" />

@@ -1,8 +1,8 @@
+import { Message } from "@/domain/models/Message";
+import type { AnthropicClient } from "@/infrastructure/anthropic/AnthropicClient";
+import { MessageRepository } from "@/interfaces/repositories/MessageRepository";
 // tests/interfaces/MessageRepository.test.ts
 import { type Mock, describe, expect, it, vi } from "vitest";
-import { Message } from "../../src/domain/models/Message";
-import type { AnthropicClient } from "../../src/infrastructure/anthropic/AnthropicClient";
-import { MessageRepository } from "../../src/interfaces/repositories/MessageRepository";
 
 describe("MessageRepository", () => {
   const anthropicClient = {
