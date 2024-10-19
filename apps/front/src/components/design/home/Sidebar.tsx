@@ -30,7 +30,7 @@ export const Sidebar = () => {
       <button
         type="button"
         onClick={toggleSidebar}
-        className="fixed top-4 left-4 z-50 rounded-md bg-gray-800 p-2 text-gray-200 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-inset md:hidden"
+        className="fixed top-4 right-4 z-50 rounded-md bg-gray-800 p-2 text-gray-200 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:ring-inset md:hidden"
         aria-label="Toggle sidebar"
       >
         {isOpen ? <X size={20} /> : <Menu size={20} />}
