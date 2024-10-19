@@ -1,5 +1,5 @@
 import { ChevronRight, LogOut, Menu, MessageSquare, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Popover,
@@ -16,6 +16,13 @@ export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    if (chats.length) {
+      const { id, name } = chats[0];
+      setRoom({ id, name });
+    }
+  });
 
   return (
     <>
