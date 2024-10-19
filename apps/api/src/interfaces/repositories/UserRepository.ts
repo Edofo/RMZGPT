@@ -1,5 +1,5 @@
 import type { User } from "@/domain/models/User";
-import prismaClientInstance from "@/infrastructure/db/prismaClient";
+import prismaClientInstance from "@/infrastructure/db/PrismaClient";
 
 class UserRepository {
   async createUser(user: User) {
