@@ -63,7 +63,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const handleLogout = useCallback(() => {
     setUser(undefined);
     removeCookie(JWT_COOKIE_NAME);
-    window.location.reload();
   }, [removeCookie]);
 
   const handleRegister = useCallback(

@@ -3,6 +3,7 @@ import { AnthropicClient } from "@/infrastructure/anthropic/AnthropicClient";
 import { MessageRepository } from "@/interfaces/repositories/MessageRepository";
 import type { Request, Response } from "express";
 
+import { HttpMessages } from "@/constants/httpMessages";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -27,17 +28,18 @@ export class MessageController {
 
       return res.status(201).send({
         id: response.id,
-        content: content?.type === "text" ? content.text : "An error occurred",
+        content:
+          content?.type === "text" ? content.text : HttpMessages.ERROR_OCCURRED,
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
         return res.status(500).send({ error: error.message });
       }
-      return res.status(500).send({ error: "An unknown error occurred" });
+      return res.status(500).send({ error: HttpMessages.ERROR_OCCURRED });
     }
   }
 
-  static healthCheck(req: Request, res: Response) {
-    res.json({ status: "ok" });
+  static healthCheck(_: Request, res: Response) {
+    res.json({ status: HttpMessages.ERROR_OCCURRED });
   }
 }

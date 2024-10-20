@@ -1,3 +1,4 @@
+import { JWT_COOKIE_NAME } from "@/constants/cookies";
 import type { AxiosError, AxiosResponse } from "axios";
 import axios from "axios";
 
@@ -11,7 +12,18 @@ const api = axios.create({
 
 // interceptors are functions that will be executed before the request is sent
 api.interceptors.request.use(async (config) => {
-  console.log(config, import.meta.env.VITE_API_URL);
+  // get the token from the cookies
+  const token = document.cookie
+    .split(";")
+    .find((cookie) => cookie.includes(JWT_COOKIE_NAME))
+    ?.split("=")[1];
+  // add the token to the headers
+  if (config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    config.headers = new axios.AxiosHeaders();
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
