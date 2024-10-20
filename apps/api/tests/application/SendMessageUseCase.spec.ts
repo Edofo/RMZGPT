@@ -1,6 +1,6 @@
 // tests/application/SendMessageUseCase.test.ts
 import { type Mock, describe, expect, it, vi } from "vitest";
-import { SendMessageUseCase } from "../../src/application/usecases/sendMessage";
+import { SendMessageUseCase } from "../../src/application/usecases/SendMessageUseCase";
 import { Message } from "../../src/domain/models/Message";
 import { MessageService } from "../../src/domain/services/MessageService";
 import type { MessageRepository } from "../../src/interfaces/repositories/MessageRepository";

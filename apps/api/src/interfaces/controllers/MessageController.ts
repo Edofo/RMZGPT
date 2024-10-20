@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { SendMessageUseCase } from "../../application/usecases/sendMessage";
+import { SendMessageUseCase } from "../../application/usecases/SendMessageUseCase";
 import { MessageService } from "../../domain/services/MessageService";
 import { AnthropicClient } from "../../infrastructure/anthropic/AnthropicClient";
 import { MessageRepository } from "../../interfaces/repositories/MessageRepository";
