@@ -4,7 +4,11 @@ import prismaClientInstance from "@/infrastructure/db/PrismaClient";
 class UserRepository {
   async createUser(user: User) {
     return await prismaClientInstance.prisma.user.create({
-      data: user,
+      data: {
+        username: user.username,
+        email: user.email,
+        password: user.password,
+      },
     });
   }
 
