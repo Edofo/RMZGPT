@@ -1,4 +1,4 @@
-import GetMeUseCase from "@/application/auth/usecases/getMe";
+import GetMeUseCase from "@/application/auth/usecases/GetMeUseCase";
 import { HttpMessages } from "@/constants/httpMessages";
 import userRepository from "@/interfaces/repositories/UserRepository";
 import { type Mock, beforeEach, describe, expect, it, vi } from "vitest";

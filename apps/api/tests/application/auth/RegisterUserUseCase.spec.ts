@@ -1,4 +1,4 @@
-import RegisterUserUseCase from "@/application/auth/usecases/registerUser";
+import RegisterUserUseCase from "@/application/auth/usecases/RegisterUserUseCase";
 import { HttpMessages } from "@/constants/httpMessages";
 import { Encrypt } from "@/infrastructure/helpers/Encrypt";
 import userRepository from "@/interfaces/repositories/UserRepository";
