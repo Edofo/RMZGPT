@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 
 import { type Mock, beforeEach, describe, expect, it, vi } from "vitest";
 
-// Mock des dépendances
 vi.mock("@/interfaces/repositories/UserRepository");
 vi.mock("@/infrastructure/helpers/Encrypt");
 vi.mock("jsonwebtoken");
