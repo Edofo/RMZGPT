@@ -30,7 +30,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [_, setCookie, removeCookie] = useCookies([JWT_COOKIE_NAME]);
+  const [cookie, setCookie, removeCookie] = useCookies([JWT_COOKIE_NAME]);
   const { addToast } = useToast();
 
   const [user, setUser] = useState<AuthUser | undefined>(undefined);
@@ -41,7 +41,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setUser(response.data);
       return;
     }
-  }, []);
+    if (cookie[JWT_COOKIE_NAME]) {
+      removeCookie(JWT_COOKIE_NAME);
+    }
+  }, [cookie, removeCookie]);
 
   useEffect(() => {
     handleGetMe();
