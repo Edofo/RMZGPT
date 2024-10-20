@@ -1,4 +1,4 @@
-import { SendMessageUseCase } from "@/application/usecases/sendMessage";
+import { SendMessageUseCase } from "@/application/usecases/SendMessageUseCase";
 import { AnthropicClient } from "@/infrastructure/anthropic/AnthropicClient";
 import { MessageRepository } from "@/interfaces/repositories/MessageRepository";
 import type { Request, Response } from "express";

@@ -1,4 +1,4 @@
-import { SendMessageUseCase } from "@/application/usecases/sendMessage";
+import { SendMessageUseCase } from "@/application/usecases/SendMessageUseCase";
 import { Message } from "@/domain/models/Message";
 import type { MessageRepository } from "@/interfaces/repositories/MessageRepository";
 import { type Mock, describe, expect, it, vi } from "vitest";
