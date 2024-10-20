@@ -1,4 +1,4 @@
-import GetMeUseCase from "@/application/auth/usecases/getMe";
+import GetMeUseCase from "@/application/auth/usecases/GetMeUseCase";
 import * as dotenv from "dotenv";
 import type { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";

@@ -1,6 +1,6 @@
-import GetMeUseCase from "@/application/auth/usecases/getMe";
-import LoginUserUseCase from "@/application/auth/usecases/loginUser";
-import RegisterUserUseCase from "@/application/auth/usecases/registerUser";
+import GetMeUseCase from "@/application/auth/usecases/GetMeUseCase";
+import LoginUserUseCase from "@/application/auth/usecases/LoginUserUseCase";
+import RegisterUserUseCase from "@/application/auth/usecases/RegisterUserUseCase";
 import { HttpMessages } from "@/constants/httpMessages";
 import type { Request, Response } from "express";
 

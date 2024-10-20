@@ -1,14 +1,14 @@
-import GetMeUseCase from "@/application/auth/usecases/getMe";
-import LoginUserUseCase from "@/application/auth/usecases/loginUser";
-import RegisterUserUseCase from "@/application/auth/usecases/registerUser";
+import GetMeUseCase from "@/application/auth/usecases/GetMeUseCase";
+import LoginUserUseCase from "@/application/auth/usecases/LoginUserUseCase";
+import RegisterUserUseCase from "@/application/auth/usecases/RegisterUserUseCase";
 import { HttpMessages } from "@/constants/httpMessages";
 import { AuthController } from "@/interfaces/controllers/AuthController";
 import type { Request, Response } from "express";
 import { type Mock, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@/application/auth/usecases/registerUser");
-vi.mock("@/application/auth/usecases/loginUser");
-vi.mock("@/application/auth/usecases/getMe");
+vi.mock("@/application/auth/usecases/RegisterUserUseCase");
+vi.mock("@/application/auth/usecases/LoginUserUseCase");
+vi.mock("@/application/auth/usecases/GetMeUseCase");
 
 describe("AuthController - register", () => {
   let req: Partial<Request>;
