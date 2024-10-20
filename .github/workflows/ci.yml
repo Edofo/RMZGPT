@@ -76,3 +76,28 @@ jobs:
 
       - name: typecheck
         run: pnpm build
+  deploy-db:
+    name: Deploy db
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-group
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.2.0
+
+      - name: Install pnpm and dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install --no-frozen-lockfile
+        working-directory: ./apps/api
+
+      - name: Run migrations
+        run: pnpm migrate
+        working-directory: ./apps/api
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
