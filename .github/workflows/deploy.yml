@@ -38,9 +38,6 @@ jobs:
     name: Deploy api
     runs-on: ubuntu-latest
     needs: deploy-db
-    concurrency:
-      group: deploy-group
-      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
@@ -51,9 +48,6 @@ jobs:
   deploy-front:
     name: Deploy web
     runs-on: ubuntu-latest
-    concurrency:
-      group: deploy-group
-      cancel-in-progress: true
     needs: deploy-db
     steps:
       - uses: actions/checkout@v4
