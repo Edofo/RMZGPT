@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --loader:.html=text --external:mock-aws-s3 --external:aws-sdk --external:nock",
     "dev": "tsx watch src/index.ts",
     "test": "vitest --run",
     "typecheck": "tsc --noEmit",
