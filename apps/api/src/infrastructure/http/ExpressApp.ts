@@ -1,7 +1,9 @@
+import authRoutes from "@/interfaces/routes/AuthRoutes";
+import messageRoutes from "@/interfaces/routes/MessageRoutes";
 import cors from "cors";
 import express, { type Application } from "express";
 import helmet from "helmet";
-import messageRoutes from "../../interfaces/routes/MessageRoutes";
+import morgan from "morgan";
 
 export const createApp = (): Application => {
   const app = express();
@@ -10,6 +12,7 @@ export const createApp = (): Application => {
   app.use(express.urlencoded({ extended: true, limit: "50mb" }));
   app.use(cors());
   app.use(helmet());
+  app.use(morgan("dev"));
   app.use((_req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
@@ -24,6 +27,7 @@ export const createApp = (): Application => {
   });
 
   app.use(messageRoutes);
+  app.use("/auth", authRoutes);
 
   return app;
 };

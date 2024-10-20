@@ -1,22 +1,18 @@
+import { SendMessageUseCase } from "@/application/usecases/SendMessageUseCase";
+import { AnthropicClient } from "@/infrastructure/anthropic/AnthropicClient";
+import { MessageRepository } from "@/interfaces/repositories/MessageRepository";
 import type { Request, Response } from "express";
-import { SendMessageUseCase } from "../../application/usecases/SendMessageUseCase";
-import { MessageService } from "../../domain/services/MessageService";
-import { AnthropicClient } from "../../infrastructure/anthropic/AnthropicClient";
-import { MessageRepository } from "../../interfaces/repositories/MessageRepository";
 
+import { HttpMessages } from "@/constants/httpMessages";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const messageService = new MessageService();
 const anthropicClient = new AnthropicClient(
   process.env.ANTHROPIC_API_KEY as string,
 );
 const messageRepository = new MessageRepository(anthropicClient);
-const sendMessageUseCase = new SendMessageUseCase(
-  messageService,
-  messageRepository,
-);
+const sendMessageUseCase = new SendMessageUseCase(messageRepository);
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class MessageController {
@@ -24,26 +20,26 @@ export class MessageController {
     try {
       const { message } = req.body;
       if (!message) {
-        return res.status(400).send({ error: "Message is required" });
+        return res.status(400).json({ error: "Message is required" });
       }
 
       const response = await sendMessageUseCase.execute(message);
       const [content] = response.content;
 
-      return res.status(201).send({
+      return res.status(201).json({
         id: response.id,
-        content: content?.type === "text" ? content.text : "An error occurred",
+        content:
+          content?.type === "text" ? content.text : HttpMessages.ERROR_OCCURRED,
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
-        return res.status(500).send({ error: error.message });
+        return res.status(500).json({ error: error.message });
       }
-
-      return res.status(500).send({ error: "An unknown error occurred" });
+      return res.status(500).json({ error: HttpMessages.ERROR_OCCURRED });
     }
   }
 
-  static healthCheck(req: Request, res: Response) {
-    res.json({ status: "ok" });
+  static healthCheck(_: Request, res: Response) {
+    res.json({ status: HttpMessages.ERROR_OCCURRED });
   }
 }

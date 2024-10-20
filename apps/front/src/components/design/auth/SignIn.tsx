@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
 import { isValidEmail } from "@/lib/isValidData";
 
 export const SignIn = () => {
   const { addToast } = useToast();
+  const { login } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -21,6 +23,8 @@ export const SignIn = () => {
     const password = e.currentTarget.password.value;
     if (password.length < 6)
       return addToast("Password must be at least 6 characters", "error");
+
+    login({ email, password });
   };
 
   return (

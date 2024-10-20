@@ -6,10 +6,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useAuth } from "@/contexts/AuthContext";
 import { useChat } from "@/contexts/ChatContext";
 
 export const Sidebar = () => {
   const { setRoom } = useChat();
+  const { logout } = useAuth();
 
   const chats = [{ id: "1", name: "Chat 1" }];
 
@@ -57,11 +59,11 @@ export const Sidebar = () => {
           <PopoverContent className="rounded-md bg-gray-800 p-2 shadow-lg">
             <button
               type="button"
-              // onClick={logout}
+              onClick={logout}
               className="flex w-full items-center gap-2 rounded-md bg-gray-700 p-2 text-left text-gray-200 text-sm transition-colors hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             >
               <LogOut className="h-4 w-4" />
-              Se déconnecter
+              Log out
             </button>
           </PopoverContent>
         </Popover>

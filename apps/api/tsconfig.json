@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "exclude": ["dist", "node_modules"],
   "extends": "@repo/typescript-config/base.json"
