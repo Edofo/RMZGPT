@@ -28,12 +28,12 @@ export class AuthController {
       if (error instanceof Error) {
         switch (error.message) {
           case HttpMessages.AUTH.USER_ALREADY_EXISTS:
-            return res.status(409).send({ error: error.message });
+            return res.status(409).json({ error: error.message });
           default:
-            return res.status(500).send({ error: error.message });
+            return res.status(500).json({ error: error.message });
         }
       }
-      return res.status(500).send({ error: HttpMessages.ERROR_OCCURRED });
+      return res.status(500).json({ error: HttpMessages.ERROR_OCCURRED });
     }
   }
 
@@ -55,12 +55,12 @@ export class AuthController {
       if (error instanceof Error) {
         switch (error.message) {
           case HttpMessages.INVALID_CREDENTIALS:
-            return res.status(401).send({ error: error.message });
+            return res.status(401).json({ error: error.message });
           default:
-            return res.status(500).send({ error: error.message });
+            return res.status(500).json({ error: error.message });
         }
       }
-      return res.status(500).send({ error: HttpMessages.ERROR_OCCURRED });
+      return res.status(500).json({ error: HttpMessages.ERROR_OCCURRED });
     }
   }
 
@@ -78,9 +78,9 @@ export class AuthController {
       });
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).send({ error: error.message });
+        return res.status(500).json({ error: error.message });
       }
-      return res.status(500).send({ error: HttpMessages.ERROR_OCCURRED });
+      return res.status(500).json({ error: HttpMessages.ERROR_OCCURRED });
     }
   }
 

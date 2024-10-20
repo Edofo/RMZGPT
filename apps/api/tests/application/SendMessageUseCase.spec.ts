@@ -1,7 +1,6 @@
 import { SendMessageUseCase } from "@/application/usecases/sendMessage";
 import { Message } from "@/domain/models/Message";
 import type { MessageRepository } from "@/interfaces/repositories/MessageRepository";
-// tests/application/SendMessageUseCase.test.ts
 import { type Mock, describe, expect, it, vi } from "vitest";
 
 describe("SendMessageUseCase", () => {
