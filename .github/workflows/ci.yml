@@ -48,6 +48,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Generate Prisma Client
+        run: pnpm generate
+        working-directory: ./apps/api
+
       - name: test
         run: pnpm test
 
