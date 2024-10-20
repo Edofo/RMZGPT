@@ -1,4 +1,4 @@
-import * as bycrpt from "bcrypt";
+import * as bycrpt from "bcryptjs";
 import * as dotenv from "dotenv";
 import * as jwt from "jsonwebtoken";
 
