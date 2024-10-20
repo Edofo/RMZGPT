@@ -1,6 +1,7 @@
 import GetMeUseCase from "@/application/auth/usecases/getMe";
 import LoginUserUseCase from "@/application/auth/usecases/loginUser";
 import RegisterUserUseCase from "@/application/auth/usecases/registerUser";
+import { HttpMessages } from "@/constants/httpMessages";
 import type { Request, Response } from "express";
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
@@ -10,13 +11,29 @@ export class AuthController {
     const registerUser = new RegisterUserUseCase();
 
     try {
-      const user = await registerUser.execute(username, email, password);
-      res.status(201).json({ message: "User registered", user });
+      const { user, token } = await registerUser.execute(
+        username,
+        email,
+        password,
+      );
+      res.status(201).json({
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        },
+        token,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).send({ error: error.message });
+        switch (error.message) {
+          case HttpMessages.AUTH.USER_ALREADY_EXISTS:
+            return res.status(409).send({ error: error.message });
+          default:
+            return res.status(500).send({ error: error.message });
+        }
       }
-      return res.status(500).send({ error: "An unknown error occurred" });
+      return res.status(500).send({ error: HttpMessages.ERROR_OCCURRED });
     }
   }
 
@@ -26,12 +43,24 @@ export class AuthController {
 
     try {
       const { user, token } = await loginUser.execute(email, password);
-      res.json({ message: "Logged in", user, token });
+      res.status(201).json({
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        },
+        token,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).send({ error: error.message });
+        switch (error.message) {
+          case HttpMessages.INVALID_CREDENTIALS:
+            return res.status(401).send({ error: error.message });
+          default:
+            return res.status(500).send({ error: error.message });
+        }
       }
-      return res.status(500).send({ error: "An unknown error occurred" });
+      return res.status(500).send({ error: HttpMessages.ERROR_OCCURRED });
     }
   }
 
@@ -42,16 +71,20 @@ export class AuthController {
 
     try {
       const user = await getMe.execute(userId);
-      res.json(user);
+      res.status(200).json({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      });
     } catch (error) {
       if (error instanceof Error) {
         return res.status(500).send({ error: error.message });
       }
-      return res.status(500).send({ error: "An unknown error occurred" });
+      return res.status(500).send({ error: HttpMessages.ERROR_OCCURRED });
     }
   }
 
-  static healthCheck(req: Request, res: Response) {
-    res.json({ status: "ok" });
+  static healthCheck(_: Request, res: Response) {
+    res.json({ status: HttpMessages.OK });
   }
 }
