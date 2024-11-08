@@ -1,0 +1,22 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  generation: 2
+  name: alert-error
+  namespace: flux-system
+spec:
+  providerRef:
+    name: slack
+  eventSeverity: error
+  eventMetadata:
+    environment: prod
+  eventSources:
+    - kind: GitRepository
+      name: "*"
+    - kind: Kustomization
+      name: "*"
+    - kind: HelmRelease
+      name: "*"
+    - kind: HelmChart
+      name: "*"
