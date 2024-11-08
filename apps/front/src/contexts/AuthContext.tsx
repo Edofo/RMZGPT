@@ -36,9 +36,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<AuthUser | undefined>(undefined);
 
   const handleGetMe = useCallback(async () => {
+    if (!cookie[JWT_COOKIE_NAME]) return;
     const response = await GetMe();
     if (response.status === 200) return setUser(response.data);
-    if (cookie[JWT_COOKIE_NAME]) removeCookie(JWT_COOKIE_NAME);
+    removeCookie(JWT_COOKIE_NAME);
   }, [cookie, removeCookie]);
 
   useEffect(() => {

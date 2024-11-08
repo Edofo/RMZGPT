@@ -1,0 +1,6 @@
+version: v1
+Kind: Namespace
+metadata:
+  name: services
+  labels:
+    name: services

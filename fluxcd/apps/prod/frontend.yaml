@@ -1,0 +1,81 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: frontend-repo
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  url: https://github.com/Edofo/RMZGPT
+  ref:
+    branch: master
+  ignore: |
+    # exclude all
+    /*
+    # include charts directory
+    !/apps/front/deploy
+  secretRef:
+    name: github-auth-secret
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: frontend
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: "./apps/front/deploy/overlays/prod"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: frontend-repo
+    namespace: flux-system
+  wait: true
+  images:
+    - name: 222634381307.dkr.ecr.eu-west-1.amazonaws.com/rmzgpt/front
+      newTag: # TODO {"$imagepolicy": "flux-system:frontend-policy:tag"}
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: frontend-repo
+  namespace: flux-system
+spec:
+  image: 222634381307.dkr.ecr.eu-west-1.amazonaws.com/rmzgpt/front
+  interval: 1h
+  secretRef:
+    name: regcred
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: frontend-policy
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: frontend-repo
+  policy:
+    semver:
+      range: ">=0.0.0"
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: frontend-image-update
+  namespace: flux-system
+spec:
+  interval: 30m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    checkout:
+      ref:
+        branch: master
+    commit:
+      author:
+        email: fluxcdbot@users.noreply.github.com
+        name: fluxcdbot
+      messageTemplate: "Update frontend image: {{range .Updated.Images}}{{println .}}{{end}}"
+  update:
+    path: "./fluxcd/apps/prod/frontend.yaml"
+    strategy: Setters

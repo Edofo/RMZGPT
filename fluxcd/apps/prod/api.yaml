@@ -1,0 +1,81 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: api-repo
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  url: https://github.com/Edofo/RMZGPT
+  ref:
+    branch: master
+  ignore: |
+    # exclude all
+    /*
+    # include charts directory
+    !/apps/api/deploy
+  secretRef:
+    name: github-auth-secret
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: api
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: "./apps/api/deploy/overlays/prod"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: api-repo
+    namespace: flux-system
+  wait: true
+  images:
+    - name: 222634381307.dkr.ecr.eu-west-1.amazonaws.com/rmzgpt/back
+      newTag: # TODO {"$imagepolicy": "flux-system:api-policy:tag"}
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: api-repo
+  namespace: flux-system
+spec:
+  image: 222634381307.dkr.ecr.eu-west-1.amazonaws.com/rmzgpt/back
+  interval: 1h
+  secretRef:
+    name: regcred
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: api-policy
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: api-repo
+  policy:
+    semver:
+      range: ">=0.0.0"
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: api-image-update
+  namespace: flux-system
+spec:
+  interval: 30m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    checkout:
+      ref:
+        branch: master
+    commit:
+      author:
+        email: fluxcdbot@users.noreply.github.com
+        name: fluxcdbot
+      messageTemplate: "Update api image: {{range .Updated.Images}}{{println .}}{{end}}"
+  update:
+    path: "./fluxcd/apps/prod/api.yaml"
+    strategy: Setters
