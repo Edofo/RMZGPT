@@ -6,4 +6,4 @@ resources:
   - ./api.yaml
   - ./certificate.yaml
   - ./frontend.yaml
-  - ./namespaces.yaml
+  - ./namespace.yaml
