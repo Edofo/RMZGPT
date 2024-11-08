@@ -10,10 +10,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        -  # TODO
+        - rmzgpt.leets.app
       secretName: tls-production-secret
   rules:
-    - host: # TODO
+    - host: rmzgpt.leets.app
       http:
         paths:
           - path: /
