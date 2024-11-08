@@ -1,11 +1,11 @@
 name: Push Image to ECR 🚀
 
 on:
-  workflow_run:
-    workflows: [CI]
-    branches: [main]
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: [CI]
+  #   branches: [main]
+  #   types:
+  #     - completed
   push:
     tags:
       - "[0-9]+.[0-9]+.[0-9]+" # Semantic versioning
@@ -35,7 +35,7 @@ jobs:
           ECR_REPOSITORY: rmzgpt/front
           IMAGE_TAG: ${{ github.ref_name }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./apps/api/Dockerfile
+          docker build -f ./apps/api/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --no-cache=true ./apps/api
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   push-front-image:
@@ -62,5 +62,5 @@ jobs:
           ECR_REPOSITORY: rmzgpt/front
           IMAGE_TAG: ${{ github.ref_name }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./apps/front/Dockerfile
+          docker build -f ./apps/front/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --no-cache=true ./apps/front
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
