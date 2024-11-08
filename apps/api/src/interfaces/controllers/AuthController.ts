@@ -26,12 +26,10 @@ export class AuthController {
       });
     } catch (error) {
       if (error instanceof Error) {
-        switch (error.message) {
-          case HttpMessages.AUTH.USER_ALREADY_EXISTS:
-            return res.status(409).json({ error: error.message });
-          default:
-            return res.status(500).json({ error: error.message });
+        if (error.message === HttpMessages.AUTH.USER_ALREADY_EXISTS) {
+          return res.status(409).json({ error: error.message });
         }
+        return res.status(500).json({ error: error.message });
       }
       return res.status(500).json({ error: HttpMessages.ERROR_OCCURRED });
     }
