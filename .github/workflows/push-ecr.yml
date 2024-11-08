@@ -37,7 +37,7 @@ jobs:
           # IMAGE_TAG: ${{ github.ref_name }}
           IMAGE_TAG: latest
         run: |
-          docker build -f ./apps/api/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --no-cache=true ./apps/api
+          docker build -f ./apps/api/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --no-cache=true
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   push-front-image:
@@ -65,5 +65,5 @@ jobs:
           # IMAGE_TAG: ${{ github.ref_name }}
           IMAGE_TAG: latest
         run: |
-          docker build -f ./apps/front/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --no-cache=true ./apps/front
+          docker build -f ./apps/front/Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --no-cache=true
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
