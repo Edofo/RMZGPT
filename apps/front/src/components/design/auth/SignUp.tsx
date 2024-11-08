@@ -13,22 +13,33 @@ export const SignUp = () => {
   const { register } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     const email = e.currentTarget.email.value;
-    if (!isValidEmail(email)) return addToast("Invalid email", "error");
+    if (!isValidEmail(email)) {
+      setLoading(false);
+      return addToast("Invalid email", "error");
+    }
 
     const password = e.currentTarget.password.value;
-    if (password.length < 6)
+    if (password.length < 6) {
+      setLoading(false);
       return addToast("Password must be at least 6 characters", "error");
+    }
 
     const confirmPassword = e.currentTarget.password2.value;
-    if (password !== confirmPassword)
+    if (password !== confirmPassword) {
+      setLoading(false);
       return addToast("Passwords do not match", "error");
+    }
 
     register({ email, username: e.currentTarget.username.value, password });
+
+    setLoading(false);
   };
 
   return (
@@ -113,10 +124,17 @@ export const SignUp = () => {
       </div>
       <div>
         <Button
+          disabled={loading}
           type="submit"
           className="w-full bg-blue-600 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
-          <UserPlus className="mr-2 h-5 w-5" /> Sign up
+          {loading ? (
+            <span className="mr-2">Loading...</span>
+          ) : (
+            <>
+              <UserPlus className="mr-2 h-5 w-5" /> Sign up
+            </>
+          )}
         </Button>
       </div>
     </form>

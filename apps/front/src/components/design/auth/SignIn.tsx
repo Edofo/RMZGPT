@@ -13,18 +13,27 @@ export const SignIn = () => {
   const { login } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     const email = e.currentTarget.email.value;
-    if (!isValidEmail(email)) return addToast("Invalid email", "error");
+    if (!isValidEmail(email)) {
+      setLoading(false);
+      return addToast("Invalid email", "error");
+    }
 
     const password = e.currentTarget.password.value;
-    if (password.length < 6)
+    if (password.length < 6) {
+      setLoading(false);
       return addToast("Password must be at least 6 characters", "error");
+    }
 
     login({ email, password });
+
+    setLoading(false);
   };
 
   return (
@@ -72,10 +81,17 @@ export const SignIn = () => {
 
       <div>
         <Button
+          disabled={loading}
           type="submit"
           className="w-full bg-blue-600 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
-          <LogIn className="mr-2 h-5 w-5" /> Sign in
+          {loading ? (
+            <span className="mr-2">Loading...</span>
+          ) : (
+            <>
+              <LogIn className="mr-2 h-5 w-5" /> Sign in
+            </>
+          )}
         </Button>
       </div>
     </form>

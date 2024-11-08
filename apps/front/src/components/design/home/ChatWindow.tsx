@@ -39,7 +39,7 @@ export const ChatWindow = () => {
                 }`}
               >
                 <p className="break-words text-sm">{message.content}</p>
-                <span className="mt-1 hidden text-right text-gray-400 text-xs group-hover:block">
+                <span className="mt-1 text-right text-gray-400 text-xs">
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </span>
               </div>

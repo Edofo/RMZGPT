@@ -37,13 +37,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const handleGetMe = useCallback(async () => {
     const response = await GetMe();
-    if (response.status === 200) {
-      setUser(response.data);
-      return;
-    }
-    if (cookie[JWT_COOKIE_NAME]) {
-      removeCookie(JWT_COOKIE_NAME);
-    }
+    if (response.status === 200) return setUser(response.data);
+    if (cookie[JWT_COOKIE_NAME]) removeCookie(JWT_COOKIE_NAME);
   }, [cookie, removeCookie]);
 
   useEffect(() => {
@@ -53,10 +48,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const handleLogin = useCallback(
     async (data: LoginRequest) => {
       const response = await Login(data);
-      if (response.status === 401) {
-        addToast("Invalid credentials", "error");
-        return;
-      }
+      if (response.status === 401)
+        return addToast("Invalid credentials", "error");
+      if (response.status !== 201)
+        return addToast("An error occurred", "error");
       setCookie(JWT_COOKIE_NAME, response.data.token);
       setUser(response.data.user);
     },
@@ -71,14 +66,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const handleRegister = useCallback(
     async (data: RegisterRequest) => {
       const response = await Register(data);
-      if (response.status === 409) {
-        addToast("User already exists", "error");
-        return;
-      }
-      if (response.status !== 201) {
-        addToast("An error occurred", "error");
-        return;
-      }
+      if (response.status === 409)
+        return addToast("User already exists", "error");
+      if (response.status !== 201)
+        return addToast("An error occurred", "error");
       setCookie(JWT_COOKIE_NAME, response.data);
       setUser(response.data.user);
     },
