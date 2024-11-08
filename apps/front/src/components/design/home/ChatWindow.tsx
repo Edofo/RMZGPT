@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-
 import { useChat } from "@/contexts/ChatContext";
+import ReactMarkdownPreview from "@uiw/react-markdown-preview";
+import { useEffect } from "react";
 
 export const ChatWindow = () => {
   const { room, roomMessages, loadingMessage } = useChat();
@@ -38,7 +38,10 @@ export const ChatWindow = () => {
                     : "bg-gray-800 text-gray-100"
                 }`}
               >
-                <p className="break-words text-sm">{message.content}</p>
+                <ReactMarkdownPreview
+                  source={message.content}
+                  className="break-words text-sm"
+                />
                 <span className="mt-1 text-right text-gray-400 text-xs">
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </span>
